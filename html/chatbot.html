@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loicabot</title>
+<style>
+  /* Estilos para el chat */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('https://img.freepik.com/fotos-premium/botella-leche-vaso-leche-queso-vacas-campo-fondo_437937-765.jpg');
+  
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Hace que la imagen de fondo sea fija */
+  }
+
+  #chat-wrapper {
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+
+  
+  #chat-container {  
+    height: 400px;
+    border: 1px solid #ffffff;
+    padding: 10px;
+    background-color: #ffffff;
+    overflow-y: auto;
+    transition: background-color 0.3s ease;
+  }
+
+  .message-container {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+
+  .user-message {
+    color: #333;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 10px;
+    margin-left: auto; /* Mover la caja del usuario a la derecha */
+    margin-right: 10px;
+    max-width: 70%;
+  }
+
+  .bot-message {
+    color: #fff;
+    background-image: linear-gradient(135deg, #49e73b 0%, #067740 100%);
+    border-radius: 10px;
+    padding: 10px;
+    margin-left: 10px;  
+    max-width: 70%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+
+  .bot-message:hover {
+    background-color: #598348;
+  }
+
+  #input-container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 39%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #user-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    transition: border-color 0.3s ease;
+    width: 90%; /* Ajuste del ancho de la caja de texto */
+  }
+
+  #user-input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  #send-button {
+    padding: 10px 20px;
+    background-color: #fff200;
+    color: #030101;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+  }
+
+  #send-button:hover {
+    background-color: #b36800;
+  }
+
+  #chat-title {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 10px;
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    background-image: linear-gradient(135deg, #d6e73b 0%, #f7ff05 100%);
+    color: #000000;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+</style>
+</head>
+<body>
+<div id="chat-title">LoicaBot asistente de ventas</div>
+<div id="chat-wrapper">
+  <div id="chat-container"></div>
+</div>
+<div id="input-container">
+  <input type="text" id="user-input" placeholder="Escribe aquí...">
+  <button id="send-button" onclick="enviarMensaje()">Enviar</button>
+</div>
+
+<script>
+// Función para enviar mensajes
+function enviarMensaje() {
+  var userInput = document.getElementById("user-input").value;
+  if (userInput.trim() === "") {
+    return; // Evitar enviar mensajes vacíos
+  }
+  agregarMensaje("Tú", userInput, "user-message");
+  // Llamamos a la función para que el chatbot responda
+  chatbotResponder(userInput);
+  document.getElementById("user-input").value = ""; // Limpiar el campo de entrada
+  scrollToBottom();
+}
+
+// Función para agregar mensajes al contenedor de chat
+function agregarMensaje(usuario, mensaje, clase) {
+  var chatContainer = document.getElementById("chat-container");
+  var mensajeElemento = document.createElement("div");
+  mensajeElemento.classList.add("message-container");
+  mensajeElemento.innerHTML = "<div class='" + clase + "'><strong>" + usuario + ":</strong> " + mensaje + "</div>";
+  chatContainer.appendChild(mensajeElemento);
+}
+
+// Función para que el chatbot responda
+function chatbotResponder(mensaje) {
+  var respuesta;
+  // Convertimos el mensaje a minúsculas para facilitar la comparación
+  var mensajeMin = mensaje.toLowerCase();
+  
+  // Simulamos una respuesta del chatbot
+  if (mensajeMin.includes("hola") || mensajeMin.includes("buenos dias")|| mensajeMin.includes("buenas")|| mensajeMin.includes("buenas noches")|| mensajeMin.includes("buenas tardes")) {
+    respuesta = "¡Hola! ¿En qué puedo ayudarte?";
+  } else if (mensajeMin.includes("adiós") || mensajeMin.includes("chao") ||mensajeMin.includes("Hasta luego")) {
+    respuesta = "¡Hasta luego, gracias por preferirnos!";
+  } else if (mensajeMin.includes("cómo estás") || mensajeMin.includes("que tal")||mensajeMin.includes("como va todo")) {
+    respuesta = "Estoy bien, gracias por preguntar.";
+  } else if (mensajeMin.includes("horario") || mensajeMin.includes("atienden")|| mensajeMin.includes("horario atención") || mensajeMin.includes("cierran")|| mensajeMin.includes("abren")||mensajeMin.includes("horario de apertura")) {
+    respuesta = "Nuestro horario de atención es de lunes a viernes de 9:00 a 19:00 en Chapuco, Reumen.";
+  } else if (mensajeMin.includes("ubicación")|| mensajeMin.includes("donde se encuentran")||mensajeMin.includes("ubicacion")) {
+    respuesta = "Estamos ubicados en Chapuco, Reumen con el local físico. También nos puedes encontrar en Valdivia en las diversas ferias los días martes, miércoles, viernes y sábado.";
+  } else if (mensajeMin.includes("contacto") || mensajeMin.includes("telefono") ||mensajeMin.includes("correo")|| mensajeMin.includes("numero") ||mensajeMin.includes("contactarlos")) {
+    respuesta = "Puedes contactarnos al correo electrónico lacteosgosenltda@gmail.com o al teléfono +56 958473424.";
+  } else if (mensajeMin.includes ("productos") || mensajeMin.includes(" que productos")|| mensajeMin.includes("que venden")){
+    respuesta = " Nuestros productos son queso redondo de 900 gramos o 1 kilo, barra de queso de 5 kilos, queso de 10 kilos y manjar en envase de 300ml";
+  } else if (mensajeMin.includes("precio") || mensajeMin.includes("valor")) {
+    respuesta = "Nuestros precios varían según el producto. Constamos con 3 variedades de queso mantecoso según el peso. Estos son queso redondo de 1 kilo o 900 gramos, su valor es de $8000 pesos. Queso en barra de 5 kilos, su valor de $37500 pesos. Queso de 10 kilos a $75000 pesos. También disponemos de manjar en envase de 300ml a $3500 pesos ";
+  } else if (mensajeMin.includes("ofertas") || mensajeMin.includes("descuentos")) {
+    respuesta = "Sí, por la compra al por mayor las barras de 5 kilos y/o 10 kilos su valor queda en $7000 pesos por kilo";
+  } else if (mensajeMin.includes("queso con especias")|| mensajeMin.includes("venden queso con especias")) {
+    respuesta = " Si podemos incluirle oregano y merquén, para esto se debe avisar con una semana de anticipación. ";
+  } else if (mensajeMin.includes("redes sociales")|| mensajeMin.includes("facebook")|| mensajeMin.includes("instagram")|| mensajeMin.includes("ig")) {
+    respuesta = "Puedes seguirnos en Facebook como: Lácteos Gosen o en nuestro instagram como: @gosenlacteos";
+  } else if (mensajeMin.includes("GRACIAS") || mensajeMin.includes("muchas gracias")||mensajeMin.includes("gracias")) {
+    respuesta = "No hay de que,¿Te puedo ayudar en algo más?";
+  } else if (mensajeMin.includes("donde puedo comprar")||mensajeMin.includes("como realizo la compra") || mensajeMin.includes("como compro")|| mensajeMin.includes("quiero comprar")|| mensajeMin.includes("quisiera comprar")) { 
+    respuesta = "Por el momento no contamos con tienda online, pero puedes encontrarnos en nuestro diversos puntos físicos los cuales son en Chapuco, Reumen o en las ferias de Valdivia. También puedes realizar los pedidos a través de nuestro Whatsapp +56 958473424 ";
+  } else if (mensajeMin.includes("cuales son las ferias")||mensajeMin.includes("cuáles son las ferias")||mensajeMin.includes("donde quedan las ferias")|| mensajeMin.includes("dónde quedan las ferias")){
+    respuesta = "Las ferias que nos ubicamos son Feria Camilo Henríquez en barrios bajos el día martes, Feria Rubén Darío con Cau-Cau día miércoles, Feria Circunvalación con San Miguel día viernes y día sábado feria Circunvalación con René Scheneider";
+  } else {
+    respuesta = "Lo siento, no entendí. ¿Podrías repetir?";
+  }
+  // Agregamos la respuesta del chatbot al contenedor de chat
+  setTimeout(function() {
+    agregarMensaje("Chatbot", respuesta, "bot-message");
+    scrollToBottom();
+  }, 500);
+}
+
+// Función para desplazarse a la parte inferior del contenedor de chat
+function scrollToBottom() {
+  var chatContainer = document.getElementById("chat-container");
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+// Mensaje de bienvenida del chatbot al iniciar la conversación
+agregarMensaje("LoicaBot", "¡Hola! Soy LoicaBot asistente de Lácteos Gosen. ¿En qué puedo ayudarte?", "bot-message");
+scrollToBottom(); // Asegurarse de que la barra esté en la parte inferior al iniciar
+
+// Enviar mensaje al presionar Enter
+document.getElementById("user-input").addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    document.getElementById("send-button").click();
+  }
+});
+
+</script>
+</body>
+</html>
